@@ -4,6 +4,13 @@ namespace neophapi\transport;
 
 use neophapi\auth\IAuth;
 
+/**
+ * Interface ITransport
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi\transport
+ */
 interface ITransport
 {
     /**

@@ -2,6 +2,13 @@
 
 namespace neophapi\structure;
 
+/**
+ * Class Point
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi\structure
+ */
 class Point
 {
     /**

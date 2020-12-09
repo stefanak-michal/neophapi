@@ -1,11 +1,17 @@
 <?php
 
-
 namespace neophapi\decode;
 
+use neophapi\structure\{Node, Relationship, Path, Point};
 use Exception;
 
-
+/**
+ * Class V4_0 (Default)
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi\decode
+ */
 class V4_0 extends ADecoder
 {
 
@@ -59,10 +65,10 @@ class V4_0 extends ADecoder
     /**
      * @param array $nodes
      * @param array $meta
-     * @return \neophapi\structure\Node
+     * @return Node
      * @throws Exception
      */
-    private function node(array $nodes, array $meta): \neophapi\structure\Node
+    private function node(array $nodes, array $meta): Node
     {
         $node = [];
         foreach ($nodes as $node) {
@@ -75,16 +81,16 @@ class V4_0 extends ADecoder
             throw new Exception('Node not found in result data');
         }
 
-        return new \neophapi\structure\Node($node['id'], $node['labels'], $node['properties']);
+        return new Node($node['id'], $node['labels'], $node['properties']);
     }
 
     /**
      * @param array $relationships
      * @param array $meta
-     * @return \neophapi\structure\Relationship
+     * @return Relationship
      * @throws Exception
      */
-    private function relationship(array $relationships, array $meta): \neophapi\structure\Relationship
+    private function relationship(array $relationships, array $meta): Relationship
     {
         $rel = [];
         foreach ($relationships as $rel) {
@@ -97,7 +103,7 @@ class V4_0 extends ADecoder
             throw new Exception('Relationship not found in result data');
         }
 
-        return new \neophapi\structure\Relationship($rel['id'], $rel['startNode'], $rel['endNode'], $rel['type'], $rel['properties']);
+        return new Relationship($rel['id'], $rel['startNode'], $rel['endNode'], $rel['type'], $rel['properties']);
     }
 
     /**
@@ -117,10 +123,10 @@ class V4_0 extends ADecoder
     /**
      * @param array $graph
      * @param array $meta
-     * @return \neophapi\structure\Path
+     * @return Path
      * @throws Exception
      */
-    private function path(array $graph, array $meta): \neophapi\structure\Path
+    private function path(array $graph, array $meta): Path
     {
         $nodes = $relationships = [];
 
@@ -135,16 +141,16 @@ class V4_0 extends ADecoder
             }
         }
 
-        return new \neophapi\structure\Path($nodes, $relationships);
+        return new Path($nodes, $relationships);
     }
 
     /**
      * @param array $row
-     * @return \neophapi\structure\Point
+     * @return Point
      */
-    private function point(array $row): \neophapi\structure\Point
+    private function point(array $row): Point
     {
-        return new \neophapi\structure\Point(
+        return new Point(
             $row['coordinates'][0] ?? 0,
             $row['coordinates'][1] ?? 0,
             $row['coordinates'][2] ?? 0,

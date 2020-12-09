@@ -4,8 +4,18 @@ namespace neophapi\encode;
 
 use neophapi\Statement;
 
+/**
+ * Class Legacy
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi\encode
+ */
 class Legacy implements IEncoder
 {
+    /**
+     * @inheritDoc
+     */
     public function encode(array $statements): string
     {
         $collection = [];

@@ -2,8 +2,16 @@
 
 namespace neophapi\decode;
 
+use neophapi\structure\{Node, Relationship, Path, Point};
 use Exception;
 
+/**
+ * Class Jolt
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi\decode
+ */
 class Jolt extends ADecoder
 {
     /**
@@ -138,9 +146,9 @@ class Jolt extends ADecoder
 
     /**
      * @param array $value
-     * @return \neophapi\structure\Node
+     * @return Node
      */
-    private function node(array $value): \neophapi\structure\Node
+    private function node(array $value): Node
     {
         list($id, $labels, $properties) = $value;
 
@@ -151,15 +159,15 @@ class Jolt extends ADecoder
             $properties[$k] = $val;
         }
 
-        return new \neophapi\structure\Node($id, $labels, $properties);
+        return new Node($id, $labels, $properties);
     }
 
     /**
      * @param array $value
      * @param bool $dir
-     * @return \neophapi\structure\Relationship
+     * @return Relationship
      */
-    private function relationship(array $value, bool $dir = true): \neophapi\structure\Relationship
+    private function relationship(array $value, bool $dir = true): Relationship
     {
         if ($dir)
             list($id, $startNodeId, $type, $endNodeId, $properties) = $value;
@@ -173,14 +181,14 @@ class Jolt extends ADecoder
             $properties[$k] = $val;
         }
 
-        return new \neophapi\structure\Relationship($id, $startNodeId, $endNodeId, $type, $properties);
+        return new Relationship($id, $startNodeId, $endNodeId, $type, $properties);
     }
 
     /**
      * @param array $value
-     * @return \neophapi\structure\Path
+     * @return Path
      */
-    private function path(array $value): \neophapi\structure\Path
+    private function path(array $value): Path
     {
         $collection = [];
         foreach ($value as $element) {
@@ -189,6 +197,6 @@ class Jolt extends ADecoder
             }
         }
 
-        return new \neophapi\structure\Path($collection, $collection);
+        return new Path($collection, $collection);
     }
 }

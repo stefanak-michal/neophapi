@@ -2,12 +2,21 @@
 
 namespace neophapi\decode;
 
+use neophapi\structure\{Node, Relationship, Path};
+use neophapi\transport\ITransport;
 use Exception;
 
+/**
+ * Class Legacy
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi\decode
+ */
 class Legacy extends ADecoder
 {
     /**
-     * @var \neophapi\transport\ITransport
+     * @var ITransport
      */
     private $transport;
 
@@ -56,30 +65,30 @@ class Legacy extends ADecoder
     }
 
     /**
-     * @param \neophapi\transport\ITransport $transport
+     * @param ITransport $transport
      */
-    public function setTransport(\neophapi\transport\ITransport $transport)
+    public function setTransport(ITransport $transport)
     {
         $this->transport = $transport;
     }
 
     /**
      * @param array $value
-     * @return \neophapi\structure\Node
+     * @return Node
      */
-    private function node(array $value): \neophapi\structure\Node
+    private function node(array $value): Node
     {
-        return new \neophapi\structure\Node($value['metadata']['id'], $value['metadata']['labels'], $value['data']);
+        return new Node($value['metadata']['id'], $value['metadata']['labels'], $value['data']);
     }
 
     /**
      * @param array $value
-     * @return \neophapi\structure\Relationship
+     * @return Relationship
      * @throws Exception
      */
-    private function relationship(array $value): \neophapi\structure\Relationship
+    private function relationship(array $value): Relationship
     {
-        return new \neophapi\structure\Relationship(
+        return new Relationship(
             $value['metadata']['id'],
             $this->parseId($value['start']),
             $this->parseId($value['end']),
@@ -90,10 +99,10 @@ class Legacy extends ADecoder
 
     /**
      * @param array $value
-     * @return \neophapi\structure\Path
+     * @return Path
      * @throws Exception
      */
-    private function path(array $value): \neophapi\structure\Path
+    private function path(array $value): Path
     {
         $nodes = $relationships = [];
 
@@ -123,7 +132,7 @@ class Legacy extends ADecoder
             }
         }
 
-        return new \neophapi\structure\Path($nodes, $relationships);
+        return new Path($nodes, $relationships);
     }
 
     /**

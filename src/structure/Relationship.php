@@ -2,6 +2,12 @@
 
 namespace neophapi\structure;
 
+/**
+ * Class Relationship
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi\structure
+ */
 class Relationship
 {
     /**

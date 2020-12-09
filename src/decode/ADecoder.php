@@ -4,6 +4,13 @@ namespace neophapi\decode;
 
 use Exception;
 
+/**
+ * Class ADecoder
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi\decode
+ */
 abstract class ADecoder implements IDecoder
 {
     /**

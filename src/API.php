@@ -2,20 +2,28 @@
 
 namespace neophapi;
 
-use Exception;
 use neophapi\decode\IDecoder;
 use neophapi\encode\IEncoder;
 use neophapi\transport\ITransport;
+use neophapi\decode\{Legacy as D_Legacy, V4_0 AS D_Default, Jolt as D_Jolt};
+use neophapi\encode\{Legacy as E_Legacy, V4_0 AS E_Default};
+use Exception;
 
+/**
+ * Class API
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi
+ */
 final class API
 {
+    private const ENCODE_LEGACY = 10;
+    private const ENCODE_DEFAULT = 11;
 
-    const ENCODE_LEGACY = 10;
-    const ENCODE_DEFAULT = 11;
-
-    const DECODE_LEGACY = 20;
-    const DECODE_DEFAULT = 21;
-    const DECODE_JOLT = 22;
+    private const DECODE_LEGACY = 20;
+    private const DECODE_DEFAULT = 21;
+    private const DECODE_JOLT = 22;
 
     /**
      * @var ITransport
@@ -111,10 +119,10 @@ final class API
     {
         switch ($encoder) {
             case self::ENCODE_LEGACY:
-                $this->encoder = new \neophapi\encode\Legacy();
+                $this->encoder = new E_Legacy();
                 break;
             case self::ENCODE_DEFAULT:
-                $this->encoder = new \neophapi\encode\V4_0();
+                $this->encoder = new E_Default();
                 break;
             default:
                 throw new Exception('Invalid encoder');
@@ -131,17 +139,17 @@ final class API
     {
         switch ($decoder) {
             case self::DECODE_LEGACY:
-                $this->decoder = new \neophapi\decode\Legacy();
+                $this->decoder = new D_Legacy();
                 $this->decoder->setTransport($this->transport);
                 break;
             case self::DECODE_DEFAULT:
-                $this->decoder = new \neophapi\decode\V4_0();
+                $this->decoder = new D_Default();
                 break;
             case self::DECODE_JOLT:
                 $this->transport->setCustomHeaders([
                     'Accept' => 'application/vnd.neo4j.jolt+json-seq' //;strict=true
                 ]);
-                $this->decoder = new \neophapi\decode\Jolt();
+                $this->decoder = new D_Jolt();
                 break;
             default:
                 throw new Exception('Invalid decoder');

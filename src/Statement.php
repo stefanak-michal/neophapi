@@ -2,6 +2,13 @@
 
 namespace neophapi;
 
+/**
+ * Class Statement
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi
+ */
 final class Statement
 {
     /**

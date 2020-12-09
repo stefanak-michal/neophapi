@@ -1,12 +1,17 @@
 <?php
 
-
 namespace neophapi\transport;
-
 
 use neophapi\auth\IAuth;
 use Exception;
 
+/**
+ * Class Curl
+ *
+ * @author Michal Stefanak
+ * @link https://github.com/stefanak-michal/neophapi
+ * @package neophapi\transport
+ */
 class Curl implements ITransport
 {
 
