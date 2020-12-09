@@ -12,9 +12,18 @@ class V4_0 implements IEncoder
 
         /** @var Statement $statement */
         foreach ($statements as $statement) {
+            $query = $statement->getQuery();
+            foreach ($statement->getParameters() as $key => $value) {
+                $query = str_replace('{' . $key . '}', '$' . $key, $query);
+            }
+
             $collection[] = [
-                'statement' => $statement->getQuery(),
-                'parameters' => (object)$statement->getParameters()
+                'statement' => $query,
+                'parameters' => (object)$statement->getParameters(),
+                'resultDataContents' => [
+                    'row',
+                    'graph'
+                ]
             ];
         }
 

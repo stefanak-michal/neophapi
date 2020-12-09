@@ -12,11 +12,16 @@ class Legacy implements IEncoder
 
         /** @var Statement $statement */
         foreach ($statements as $statement) {
+            $query = $statement->getQuery();
+            foreach ($statement->getParameters() as $key => $value) {
+                $query = str_replace('$' . $key, '{' . $key . '}', $query);
+            }
+
             $collection[] = (object)[
                 'method' => 'POST',
                 'to' => '/cypher',
                 'body' => [
-                    'query' => $statement->getQuery(),
+                    'query' => $query,
                     'params' => (object)$statement->getParameters()
                 ]
             ];

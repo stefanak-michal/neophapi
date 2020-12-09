@@ -246,6 +246,10 @@ final class API
         $response = $this->transport->request($api, $data);
         $decoded = $this->decoder->decode($response);
 
+        if (!empty($decoded['errors'])) {
+            throw new Exception(implode(PHP_EOL, $decoded['errors']));
+        }
+
         return $decoded;
     }
 
