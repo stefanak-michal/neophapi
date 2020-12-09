@@ -19,7 +19,6 @@ class Jolt extends ADecoder
      */
     public function decode(string $message): array
     {
-        var_dump($message);
         $output = $header = $data = [];
 
         $k = 0;
