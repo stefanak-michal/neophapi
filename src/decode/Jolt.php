@@ -110,7 +110,22 @@ class Jolt extends ADecoder
                 break;
 
             case '@': // point
-                trigger_error('Jolt decode "Point" not implemented yet');
+                $srid = 0;
+                $crs = '';
+                $coordinates = [];
+
+                foreach (explode(';', $v) as $part) {
+                    if (stripos($part, 'SRID') === 0) {
+                        $srid = intval(explode('=', $part)[1]);
+                    } elseif (stripos($part, 'CRS') === 0) {
+                        $crs = explode('=', $part)[1];
+                    } elseif (stripos($part, 'POINT') === 0) {
+                        $part = substr($part, strpos($part, '(') + 1, -1);
+                        $coordinates = array_filter(explode(' ', $part), 'floatval');
+                    }
+                }
+
+                $value = new Point($coordinates[0] ?? 0, $coordinates[1] ?? 0, $coordinates[2] ?? 0, $crs, $srid);
                 break;
 
             case '[]': // list
