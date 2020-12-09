@@ -20,6 +20,7 @@ class V4_0 implements IEncoder
             $collection[] = [
                 'statement' => $query,
                 'parameters' => (object)$statement->getParameters(),
+                //'includeStats' => true,
                 'resultDataContents' => [
                     'row',
                     'graph'

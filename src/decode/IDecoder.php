@@ -7,9 +7,9 @@ use Exception;
 interface IDecoder
 {
     /**
-     * @param string $data
+     * @param string $message
      * @return array
      * @throws Exception
      */
-    public function decode(string $data): array;
+    public function decode(string $message): array;
 }

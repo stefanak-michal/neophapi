@@ -6,19 +6,21 @@ namespace neophapi\decode;
 use Exception;
 
 
-class V4_0 implements IDecoder
+class V4_0 extends ADecoder
 {
 
     /**
      * @inheritDoc
      */
-    public function decode(string $data): array
+    public function decode(string $message): array
     {
-        $decoded = json_decode($data, true);
+        $decoded = json_decode($message, true);
 
         if (json_last_error() != JSON_ERROR_NONE) {
             throw new Exception(json_last_error_msg());
         }
+
+        $this->checkErrors($decoded);
 
         $output = [];
         foreach ($decoded['results'] ?? [] as $result) {
@@ -125,12 +127,10 @@ class V4_0 implements IDecoder
         foreach ($meta as $item) {
             switch ($item['type']) {
                 case 'node':
-                    $node = $this->node($graph['nodes'], $item);
-                    $nodes[$node->id()] = $node;
+                    $nodes[] = $this->node($graph['nodes'], $item);
                     break;
                 case 'relationship':
-                    $relationship = $this->relationship($graph['relationships'], $item);
-                    $relationships[$relationship->id()] = $relationship;
+                    $relationships[] = $this->relationship($graph['relationships'], $item);
                     break;
             }
         }

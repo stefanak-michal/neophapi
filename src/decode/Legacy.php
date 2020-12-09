@@ -4,7 +4,7 @@ namespace neophapi\decode;
 
 use Exception;
 
-class Legacy implements IDecoder
+class Legacy extends ADecoder
 {
     /**
      * @var \neophapi\transport\ITransport
@@ -14,13 +14,15 @@ class Legacy implements IDecoder
     /**
      * @inheritDoc
      */
-    public function decode(string $data): array
+    public function decode(string $message): array
     {
-        $decoded = json_decode($data, true);
+        $decoded = json_decode($message, true);
 
         if (json_last_error() != JSON_ERROR_NONE) {
             throw new \Exception(json_last_error_msg());
         }
+
+        $this->checkErrors($decoded);
 
         $output = [];
         foreach ($decoded ?? [] as $result) {
@@ -115,11 +117,9 @@ class Legacy implements IDecoder
 
         foreach ($decoded as $result) {
             if (array_key_exists('labels', $result['body']['metadata'])) {
-                $node = $this->node($result['body']);
-                $nodes[$node->id()] = $node;
+                $nodes[] = $this->node($result['body']);
             } elseif (array_key_exists('type', $result['body']['metadata'])) {
-                $relationship = $this->relationship($result['body']);
-                $relationships[$relationship->id()] = $relationship;
+                $relationships[] = $this->relationship($result['body']);
             }
         }
 

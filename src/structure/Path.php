@@ -21,13 +21,17 @@ class Path
      */
     public function __construct(array $nodes, array $relationships)
     {
-        $this->nodes = array_filter($nodes, function($item) {
-            return $item instanceof Node;
-        });
+        foreach ($nodes as $node) {
+            if ($node instanceof Node) {
+                $this->nodes[$node->id()] = $node;
+            }
+        }
 
-        $this->relationships = array_filter($relationships, function($item) {
-            return $item instanceof Relationship;
-        });
+        foreach ($relationships as $relationship) {
+            if ($relationship instanceof Relationship) {
+                $this->relationships[$relationship->id()] = $relationship;
+            }
+        }
     }
 
     /**

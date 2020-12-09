@@ -138,6 +138,9 @@ final class API
                 $this->decoder = new \neophapi\decode\V4_0();
                 break;
             case self::DECODE_JOLT:
+                $this->transport->setCustomHeaders([
+                    'Accept' => 'application/vnd.neo4j.jolt+json-seq' //;strict=true
+                ]);
                 $this->decoder = new \neophapi\decode\Jolt();
                 break;
             default:
@@ -245,18 +248,7 @@ final class API
         }
 
         $response = $this->transport->request($api, $data);
-        $decoded = $this->decoder->decode($response);
-
-        if (!empty($decoded['errors'])) {
-            $errors = array_map(function ($err) {
-                if (is_array($err))
-                    return $err['code'] . PHP_EOL . $err['message'];
-                return $err;
-            }, $decoded['errors']);
-            throw new Exception(implode(PHP_EOL . PHP_EOL, $errors));
-        }
-
-        return $decoded;
+        return $this->decoder->decode($response);
     }
 
 }
