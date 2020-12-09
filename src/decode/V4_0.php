@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Neo4j\decode;
+namespace neophapi\decode;
 
 use Exception;
 
@@ -57,10 +57,10 @@ class V4_0 implements IDecoder
     /**
      * @param array $nodes
      * @param array $meta
-     * @return \Neo4j\structure\Node
+     * @return \neophapi\structure\Node
      * @throws Exception
      */
-    private function node(array $nodes, array $meta): \Neo4j\structure\Node
+    private function node(array $nodes, array $meta): \neophapi\structure\Node
     {
         $node = [];
         foreach ($nodes as $node) {
@@ -73,16 +73,16 @@ class V4_0 implements IDecoder
             throw new Exception('Node not found in result data');
         }
 
-        return new \Neo4j\structure\Node($node['id'], $node['labels'], $node['properties']);
+        return new \neophapi\structure\Node($node['id'], $node['labels'], $node['properties']);
     }
 
     /**
      * @param array $relationships
      * @param array $meta
-     * @return \Neo4j\structure\Relationship
+     * @return \neophapi\structure\Relationship
      * @throws Exception
      */
-    private function relationship(array $relationships, array $meta): \Neo4j\structure\Relationship
+    private function relationship(array $relationships, array $meta): \neophapi\structure\Relationship
     {
         $rel = [];
         foreach ($relationships as $rel) {
@@ -95,7 +95,7 @@ class V4_0 implements IDecoder
             throw new Exception('Relationship not found in result data');
         }
 
-        return new \Neo4j\structure\Relationship($rel['id'], $rel['startNode'], $rel['endNode'], $rel['type'], $rel['properties']);
+        return new \neophapi\structure\Relationship($rel['id'], $rel['startNode'], $rel['endNode'], $rel['type'], $rel['properties']);
     }
 
     /**
@@ -115,10 +115,10 @@ class V4_0 implements IDecoder
     /**
      * @param array $graph
      * @param array $meta
-     * @return \Neo4j\structure\Path
+     * @return \neophapi\structure\Path
      * @throws Exception
      */
-    private function path(array $graph, array $meta): \Neo4j\structure\Path
+    private function path(array $graph, array $meta): \neophapi\structure\Path
     {
         $nodes = $relationships = [];
 
@@ -135,16 +135,16 @@ class V4_0 implements IDecoder
             }
         }
 
-        return new \Neo4j\structure\Path($nodes, $relationships);
+        return new \neophapi\structure\Path($nodes, $relationships);
     }
 
     /**
      * @param array $row
-     * @return \Neo4j\structure\Point
+     * @return \neophapi\structure\Point
      */
-    private function point(array $row): \Neo4j\structure\Point
+    private function point(array $row): \neophapi\structure\Point
     {
-        return new \Neo4j\structure\Point(
+        return new \neophapi\structure\Point(
             $row['coordinates'][0] ?? 0,
             $row['coordinates'][1] ?? 0,
             $row['coordinates'][2] ?? 0,

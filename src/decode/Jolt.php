@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Neo4j\decode;
+namespace neophapi\decode;
 
 
 class Jolt implements IDecoder

@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo4j\auth;
+namespace neophapi\auth;
 
 interface IAuth
 {

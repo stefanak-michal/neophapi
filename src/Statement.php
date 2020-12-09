@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo4j;
+namespace neophapi;
 
 final class Statement
 {

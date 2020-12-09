@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Neo4j\transport;
+namespace neophapi\transport;
 
 
-use Neo4j\auth\IAuth;
+use neophapi\auth\IAuth;
 
 class Curl implements ITransport
 {

@@ -5,7 +5,7 @@ define('DS', DIRECTORY_SEPARATOR);
 spl_autoload_register(function ($name) {
     $parts = explode("\\", $name);
     $parts = array_filter($parts);
-    if ($parts[0] != 'Neo4j')
+    if ($parts[0] != 'neophapi')
         return;
     array_shift($parts);
 

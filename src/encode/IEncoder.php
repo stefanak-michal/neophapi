@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo4j\encode;
+namespace neophapi\encode;
 
 interface IEncoder
 {

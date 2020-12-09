@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo4j\structure;
+namespace neophapi\structure;
 
 class Path
 {
@@ -31,7 +31,7 @@ class Path
     }
 
     /**
-     * @return array \Neo4j\structure\Node
+     * @return array \neophapi\structure\Node
      */
     public function nodes(): array
     {
@@ -39,7 +39,7 @@ class Path
     }
 
     /**
-     * @return array \Neo4j\structure\Relationship
+     * @return array \neophapi\structure\Relationship
      */
     public function relationships(): array
     {

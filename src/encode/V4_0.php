@@ -1,8 +1,8 @@
 <?php
 
-namespace Neo4j\encode;
+namespace neophapi\encode;
 
-use Neo4j\Statement;
+use neophapi\Statement;
 
 class V4_0 implements IEncoder
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo4j\structure;
+namespace neophapi\structure;
 
 class Relationship
 {

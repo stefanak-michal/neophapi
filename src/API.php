@@ -1,11 +1,11 @@
 <?php
 
-namespace Neo4j;
+namespace neophapi;
 
 use Exception;
-use Neo4j\decode\IDecoder;
-use Neo4j\encode\IEncoder;
-use Neo4j\transport\ITransport;
+use neophapi\decode\IDecoder;
+use neophapi\encode\IEncoder;
+use neophapi\transport\ITransport;
 
 final class API
 {
@@ -111,10 +111,10 @@ final class API
     {
         switch ($encoder) {
             case self::ENCODE_LEGACY:
-                $this->encoder = new \Neo4j\encode\Legacy();
+                $this->encoder = new \neophapi\encode\Legacy();
                 break;
             case self::ENCODE_DEFAULT:
-                $this->encoder = new \Neo4j\encode\V4_0();
+                $this->encoder = new \neophapi\encode\V4_0();
                 break;
             default:
                 throw new Exception('Invalid encoder');
@@ -131,14 +131,14 @@ final class API
     {
         switch ($decoder) {
             case self::DECODE_LEGACY:
-                $this->decoder = new \Neo4j\decode\Legacy();
+                $this->decoder = new \neophapi\decode\Legacy();
                 $this->decoder->setTransport($this->transport);
                 break;
             case self::DECODE_DEFAULT:
-                $this->decoder = new \Neo4j\decode\V4_0();
+                $this->decoder = new \neophapi\decode\V4_0();
                 break;
             case self::DECODE_JOLT:
-                $this->decoder = new \Neo4j\decode\Jolt();
+                $this->decoder = new \neophapi\decode\Jolt();
                 break;
             default:
                 throw new Exception('Invalid decoder');
@@ -226,7 +226,7 @@ final class API
     /**
      * @param array $statements
      * @param int $txid Transaction ID
-     * @return array \Neo4j\Statement
+     * @return array \neophapi\Statement
      * @throws Exception
      */
     public function bulk(array $statements, int $txid = -1): array

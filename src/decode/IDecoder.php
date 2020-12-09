@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo4j\decode;
+namespace neophapi\decode;
 
 use Exception;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Neo4j\decode;
+namespace neophapi\decode;
 
 use Exception;
 
 class Legacy implements IDecoder
 {
     /**
-     * @var \Neo4j\transport\ITransport
+     * @var \neophapi\transport\ITransport
      */
     private $transport;
 
@@ -54,30 +54,30 @@ class Legacy implements IDecoder
     }
 
     /**
-     * @param \Neo4j\transport\ITransport $transport
+     * @param \neophapi\transport\ITransport $transport
      */
-    public function setTransport(\Neo4j\transport\ITransport $transport)
+    public function setTransport(\neophapi\transport\ITransport $transport)
     {
         $this->transport = $transport;
     }
 
     /**
      * @param array $value
-     * @return \Neo4j\structure\Node
+     * @return \neophapi\structure\Node
      */
-    private function node(array $value): \Neo4j\structure\Node
+    private function node(array $value): \neophapi\structure\Node
     {
-        return new \Neo4j\structure\Node($value['metadata']['id'], $value['metadata']['labels'], $value['data']);
+        return new \neophapi\structure\Node($value['metadata']['id'], $value['metadata']['labels'], $value['data']);
     }
 
     /**
      * @param array $value
-     * @return \Neo4j\structure\Relationship
+     * @return \neophapi\structure\Relationship
      * @throws Exception
      */
-    private function relationship(array $value): \Neo4j\structure\Relationship
+    private function relationship(array $value): \neophapi\structure\Relationship
     {
-        return new \Neo4j\structure\Relationship(
+        return new \neophapi\structure\Relationship(
             $value['metadata']['id'],
             $this->parseId($value['start']),
             $this->parseId($value['end']),
@@ -88,10 +88,10 @@ class Legacy implements IDecoder
 
     /**
      * @param array $value
-     * @return \Neo4j\structure\Path
+     * @return \neophapi\structure\Path
      * @throws Exception
      */
-    private function path(array $value): \Neo4j\structure\Path
+    private function path(array $value): \neophapi\structure\Path
     {
         $nodes = $relationships = [];
 
@@ -123,7 +123,7 @@ class Legacy implements IDecoder
             }
         }
 
-        return new \Neo4j\structure\Path($nodes, $relationships);
+        return new \neophapi\structure\Path($nodes, $relationships);
     }
 
     /**
