@@ -20,8 +20,6 @@ class V4_0 implements IDecoder
             throw new Exception(json_last_error_msg());
         }
 
-//        var_dump($decoded);
-
         $output = [];
         foreach ($decoded['results'] ?? [] as $result) {
             $tmp1 = [];
@@ -37,7 +35,7 @@ class V4_0 implements IDecoder
                             $value = $this->relationship($row['graph']['relationships'], $row['meta'][$i]);
                             break;
                         case 'point':
-                            $value = $this->geospatial($value);
+                            $value = $this->point($value);
                             break;
                     }
 
@@ -142,11 +140,11 @@ class V4_0 implements IDecoder
 
     /**
      * @param array $row
-     * @return \Neo4j\structure\Geospatial
+     * @return \Neo4j\structure\Point
      */
-    private function geospatial(array $row): \Neo4j\structure\Geospatial
+    private function point(array $row): \Neo4j\structure\Point
     {
-        return new \Neo4j\structure\Geospatial(
+        return new \Neo4j\structure\Point(
             $row['coordinates'][0] ?? 0,
             $row['coordinates'][1] ?? 0,
             $row['coordinates'][2] ?? 0,

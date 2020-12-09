@@ -2,7 +2,7 @@
 
 namespace Neo4j\structure;
 
-class Geospatial
+class Point
 {
     /**
      * @var float

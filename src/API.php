@@ -132,6 +132,7 @@ final class API
         switch ($decoder) {
             case self::DECODE_LEGACY:
                 $this->decoder = new \Neo4j\decode\Legacy();
+                $this->decoder->setTransport($this->transport);
                 break;
             case self::DECODE_DEFAULT:
                 $this->decoder = new \Neo4j\decode\V4_0();
@@ -247,7 +248,12 @@ final class API
         $decoded = $this->decoder->decode($response);
 
         if (!empty($decoded['errors'])) {
-            throw new Exception(implode(PHP_EOL, $decoded['errors']));
+            $errors = array_map(function ($err) {
+                if (is_array($err))
+                    return $err['code'] . PHP_EOL . $err['message'];
+                return $err;
+            }, $decoded['errors']);
+            throw new Exception(implode(PHP_EOL . PHP_EOL, $errors));
         }
 
         return $decoded;
