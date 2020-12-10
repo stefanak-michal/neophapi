@@ -65,6 +65,14 @@ class Legacy extends ADecoder
     }
 
     /**
+     * @inheritDoc
+     */
+    public function decodeTransactionId(string $message): int
+    {
+        throw new Exception('Legacy version does not support transactions');
+    }
+
+    /**
      * @param ITransport $transport
      */
     public function setTransport(ITransport $transport)

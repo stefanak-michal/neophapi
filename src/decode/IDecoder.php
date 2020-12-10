@@ -19,4 +19,11 @@ interface IDecoder
      * @throws Exception
      */
     public function decode(string $message): array;
+
+    /**
+     * @param string $message
+     * @return int
+     * @throws Exception
+     */
+    public function decodeTransactionId(string $message): int;
 }

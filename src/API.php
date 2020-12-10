@@ -179,17 +179,7 @@ final class API
         }
 
         $response = $this->transport->request('db/' . $this->database . '/tx');
-        $decoded = $this->decoder->decode($response);
-
-        if ($decoded['errors'] ?? false) {
-            throw new Exception(implode(PHP_EOL, $decoded['errors']));
-        }
-
-        if (preg_match('/tx\/(\d+)\/commit/', $decoded['commit'], $matches) != 1) {
-            throw new Exception('Parsing transaction ID unsuccessful');
-        }
-
-        return $matches[1];
+        return $this->decoder->decodeTransactionId($response);
     }
 
     /**
@@ -204,11 +194,7 @@ final class API
         }
 
         $response = $this->transport->request('db/' . $this->database . '/tx/' . $id . '/commit');
-        $decoded = $this->decoder->decode($response);
-
-        if ($decoded['errors'] ?? false) {
-            throw new Exception(implode(PHP_EOL, $decoded['errors']));
-        }
+        $this->decoder->decode($response);
 
         return true;
     }
@@ -225,11 +211,7 @@ final class API
         }
 
         $response = $this->transport->request('db/' . $this->database . '/tx/' . $id, '', 'DELETE');
-        $decoded = $this->decoder->decode($response);
-
-        if ($decoded['errors'] ?? false) {
-            throw new Exception(implode(PHP_EOL, $decoded['errors']));
-        }
+        $this->decoder->decode($response);
 
         return true;
     }

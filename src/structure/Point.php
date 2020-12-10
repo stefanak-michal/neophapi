@@ -7,6 +7,7 @@ namespace neophapi\structure;
  *
  * @author Michal Stefanak
  * @link https://github.com/stefanak-michal/neophapi
+ * @link https://neo4j.com/docs/cypher-manual/current/syntax/spatial/
  * @package neophapi\structure
  */
 class Point
@@ -27,11 +28,6 @@ class Point
     private $z;
 
     /**
-     * @var string
-     */
-    private $crs;
-
-    /**
      * @var int
      */
     private $srid;
@@ -41,15 +37,13 @@ class Point
      * @param float $x
      * @param float $y
      * @param float $z
-     * @param string $crs
      * @param int $srid
      */
-    public function __construct(float $x, float $y, float $z, string $crs = '', int $srid = 0)
+    public function __construct(float $x, float $y, float $z, int $srid = 0)
     {
         $this->x = $x;
         $this->y = $y;
         $this->z = $z;
-        $this->crs = $crs;
         $this->srid = $srid;
     }
 
@@ -99,14 +93,6 @@ class Point
     public function height(): float
     {
         return $this->z();
-    }
-
-    /**
-     * @return string
-     */
-    public function crs(): string
-    {
-        return $this->crs;
     }
 
     /**

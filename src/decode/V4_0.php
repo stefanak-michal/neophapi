@@ -63,6 +63,26 @@ class V4_0 extends ADecoder
     }
 
     /**
+     * @inheritDoc
+     */
+    public function decodeTransactionId(string $message): int
+    {
+        $decoded = json_decode($message, true);
+
+        if (json_last_error() != JSON_ERROR_NONE) {
+            throw new Exception(json_last_error_msg());
+        }
+
+        $this->checkErrors($decoded);
+
+        if (array_key_exists('commit', $decoded) && preg_match('/tx\/(\d+)\/commit/', $decoded['commit'], $matches) == 1) {
+            return intval($matches[1]);
+        }
+
+        throw new Exception('Unsuccessful decode of transaction ID from message: ' . PHP_EOL . $message);
+    }
+
+    /**
      * @param array $nodes
      * @param array $meta
      * @return Node
@@ -154,7 +174,6 @@ class V4_0 extends ADecoder
             $row['coordinates'][0] ?? 0,
             $row['coordinates'][1] ?? 0,
             $row['coordinates'][2] ?? 0,
-            $row['crs']['name'] ?? '',
             $row['crs']['srid'] ?? 0
         );
     }

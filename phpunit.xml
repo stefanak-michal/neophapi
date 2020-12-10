@@ -1,0 +1,22 @@
+<phpunit bootstrap="src/autoload.php">
+    <testsuites>
+        <testsuite name="neophapi">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <var name="NEO_USER" value="neo4j"/>
+        <var name="NEO_PASS" value="nothing"/>
+    </php>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/auth</directory>
+            <directory suffix=".php">src/decode</directory>
+            <directory suffix=".php">src/encode</directory>
+            <directory suffix=".php">src/structure</directory>
+            <directory suffix=".php">src/transport</directory>
+            <file>src/Statement.php</file>
+            <file>src/API.php</file>
+        </whitelist>
+    </filter>
+</phpunit>

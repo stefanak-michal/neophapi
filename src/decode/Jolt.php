@@ -53,6 +53,32 @@ class Jolt extends ADecoder
     }
 
     /**
+     * @inheritDoc
+     */
+    public function decodeTransactionId(string $message): int
+    {
+        foreach (explode("\n", $message) as $jsonString) {
+            if (empty($jsonString))
+                continue;
+
+            $decoded = json_decode($jsonString, true);
+            if (json_last_error() != JSON_ERROR_NONE) {
+                throw new Exception(json_last_error_msg());
+            }
+
+            if (array_key_exists('error', $decoded)) {
+                $this->checkErrors($decoded['error']);
+            }
+
+            if (array_key_exists('info', $decoded) && preg_match('/tx\/(\d+)\/commit/', $decoded['info']['commit'] ?? '', $matches) == 1) {
+                return intval($matches[1]);
+            }
+        }
+
+        throw new Exception('Unsuccessful decode of transaction ID from message: ' . PHP_EOL . $message);
+    }
+
+    /**
      * @param array $fields
      * @param array $data
      * @return array
@@ -110,21 +136,18 @@ class Jolt extends ADecoder
 
             case '@': // point
                 $srid = 0;
-                $crs = '';
                 $coordinates = [];
 
                 foreach (explode(';', $v) as $part) {
                     if (stripos($part, 'SRID') === 0) {
                         $srid = intval(explode('=', $part)[1]);
-                    } elseif (stripos($part, 'CRS') === 0) {
-                        $crs = explode('=', $part)[1];
                     } elseif (stripos($part, 'POINT') === 0) {
                         $part = substr($part, strpos($part, '(') + 1, -1);
                         $coordinates = array_filter(explode(' ', $part), 'floatval');
                     }
                 }
 
-                $value = new Point($coordinates[0] ?? 0, $coordinates[1] ?? 0, $coordinates[2] ?? 0, $crs, $srid);
+                $value = new Point($coordinates[0] ?? 0, $coordinates[1] ?? 0, $coordinates[2] ?? 0, $srid);
                 break;
 
             case '[]': // list
